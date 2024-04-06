@@ -1,5 +1,5 @@
 use std::net::TcpListener;
-
+use z2p::startup::run;
 #[tokio::test]
 async fn health_check_works() {
     let address = spawn_app();
@@ -18,7 +18,7 @@ async fn health_check_works() {
 fn spawn_app() -> String {
     let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind to port");
     let port = listener.local_addr().unwrap().port();
-    let server = z2p::run(listener).expect("Failed to spawn app");
+    let server = run(listener).expect("Failed to spawn app");
     let _ = tokio::spawn(server);
     format!("http://localhost:{}", port)
 }
